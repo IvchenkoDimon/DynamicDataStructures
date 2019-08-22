@@ -7,6 +7,8 @@ using namespace std;
 //#define BASE_CHECK
 //#define DESTRUCTOR_CHECK
 //#define INDEX_OPERATOR_CHECK
+//#define CONSTRUCTORS_CHECK
+#define OPERATORS_CHECK
 
 class Element
 {
@@ -256,10 +258,32 @@ void main()
 	}
 	cout << endl;
 #endif // INDEX_OPERATOR_CHECK
+#ifdef CONSTRUCTORS_CHECK
+	
 	ForwardList fl1 = { 3, 5 , 8 , 13 ,21 };
 	for (int i = 0; i < fl1.get_size(); i++)
 		cout << fl1[i] << tab;
 	cout << endl;
 	ForwardList fl2 = fl1; //CopyConstructor
 	fl2.print();
+#endif // CONSTRUCTORS_CHECK
+
+#ifdef OPERATORS_CHECK
+	
+	ForwardList fl1 = { 3,5,8,13,21 };
+	ForwardList fl2 = { 34,55,89 };
+	for (int i = 0; i < fl1.get_size(); i++)
+	{
+		cout << fl1[i] << tab;
+	}
+	cout << endl;
+	for (int i = 0; i < fl2.get_size(); i++)
+	{
+		cout << fl2[i] << tab;
+	}
+	cout << endl;
+	ForwardList fl3;
+	fl3 = fl1 + fl2;
+	fl3.print();
+#endif // OPERATORS_CHECK
 }
