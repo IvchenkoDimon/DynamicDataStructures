@@ -6,7 +6,7 @@ using namespace std;
 #define delimeter "\n---------------------------------------------------------\n"
 //#define BASE_CHECK
 //#define DESTRUCTOR_CHECK
-#define INDEX_OPERATOR_CHECK
+//#define INDEX_OPERATOR_CHECK
 
 class Element
 {
@@ -41,6 +41,10 @@ class ForwardList
 	Element* Head;
 	int size;
 public:
+	const int get_size() const
+	{
+		return this->size;
+	}
 	ForwardList()
 	{
 		this->Head = nullptr;
@@ -49,8 +53,8 @@ public:
 #ifdef DEBUG
 		cout << "FLConstructor:\t" << this << endl;
 #endif // DEBUG
-
 	}
+
 	ForwardList(int size) :ForwardList()
 	{
 		/*this->Head = nullptr;
@@ -58,10 +62,28 @@ public:
 		while (size--)push_front(int());
 		cout << "FLConstructor:\t" << this << endl;
 	}
+	ForwardList(initializer_list<int> il) :ForwardList()
+	{
+		//cout << typeid(il.begin()).name() << endl;
+		for (int const* it = il.begin(); it != il.end(); it++)
+		{
+			//it - итератор;
+			//begin - возвращает адрес начала контейнера il;
+			//end - возвращает адрес конца контейнера il;
+			push_back(*it);
+		}
+	}
 	~ForwardList()
 	{
 		while (Head)pop_front();
 		cout << "FLDestructor:\t" << this << endl;
+	}
+	//			Operators:
+	int& operator[](int Index)
+	{
+		Element* Temp = Head;
+		for (int i = 0; i < Index; i++)Temp = Temp->pNext;
+		return Temp->Data;
 	}
 	//			Adding Elements:
 	void push_front(int Data)
@@ -224,11 +246,20 @@ void main()
 #ifdef INDEX_OPERATOR_CHECK
 	ForwardList fl(n);
 	fl.print();
-	/*for (int i = 0; i < fl.get_size(); i++)
+	for (int i = 0; i < fl.get_size(); i++)
 	{
-		cout << fl[i] << "\t";
+		fl[i] = rand() % 100;
 	}
-	cout << endl;*/
+	for (int i = 0; i < fl.get_size(); i++)
+	{
+		cout << fl[i] << tab;
+	}
+	cout << endl;
 #endif // INDEX_OPERATOR_CHECK
-
+	ForwardList fl1 = { 3, 5 , 8 , 13 ,21 };
+	for (int i = 0; i < fl1.get_size(); i++)
+		cout << fl1[i] << tab;
+	cout << endl;
+	ForwardList fl2 = fl1; //CopyConstructor
+	fl2.print();
 }
